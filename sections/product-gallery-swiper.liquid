@@ -12,7 +12,8 @@
   {% assign selected_variant = product.selected_or_first_available_variant %}
   {% assign color_option_index = nil %}
   {% for option in product.options_with_values %}
-    {% if option.name | downcase contains 'color' %}
+    {% assign option_name_downcase = option.name | downcase %}
+    {% if option_name_downcase contains 'color' %}
       {% assign color_option_index = forloop.index0 %}
     {% endif %}
   {% endfor %}
