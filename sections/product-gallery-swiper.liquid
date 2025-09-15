@@ -1,0 +1,77 @@
+{% if product %}
+<div class="product-gallery-swiper" id="ProductGallery-{{ section.id }}" data-section-id="{{ section.id }}"
+  data-slides-desktop="{{ section.settings.slides_per_view_desktop }}"
+  data-slides-tablet="{{ section.settings.slides_per_view_tablet }}"
+  data-slides-mobile="{{ section.settings.slides_per_view_mobile }}"
+  data-space-desktop="{{ section.settings.space_between_desktop }}"
+  data-space-tablet="{{ section.settings.space_between_tablet }}"
+  data-space-mobile="{{ section.settings.space_between_mobile }}"
+  data-pagination="{{ section.settings.enable_pagination }}"
+  data-navigation="{{ section.settings.enable_navigation }}">
+  
+  {% assign selected_variant = product.selected_or_first_available_variant %}
+  {% assign color_option_index = nil %}
+  {% for option in product.options_with_values %}
+    {% if option.name | downcase contains 'color' %}
+      {% assign color_option_index = forloop.index0 %}
+    {% endif %}
+  {% endfor %}
+
+  {% assign selected_color = '' %}
+  {% if color_option_index != nil and selected_variant %}
+    {% assign selected_color = selected_variant.options[color_option_index] | downcase %}
+  {% endif %}
+
+  <div class="swiper">
+    <div class="swiper-wrapper">
+      {% for media in product.media %}
+        {% assign media_color = '' %}
+        {% if media.alt %}
+          {% assign media_color = media.alt | downcase %}
+        {% endif %}
+        <div class="swiper-slide" data-color="{{ media_color }}">
+          {% if media.media_type == 'image' %}
+            <img src="{{ media | image_url: width: 1200 }}" alt="{{ media.alt | escape }}" loading="lazy">
+          {% else %}
+            {{ media | media_tag }}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if section.settings.enable_pagination %}
+    <div class="swiper-pagination"></div>
+    {% endif %}
+
+    {% if section.settings.enable_navigation %}
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Product Gallery Swiper",
+  "settings": [
+    {"type": "header", "content": "Slides per view"},
+    {"type": "range", "id": "slides_per_view_desktop", "label": "Desktop slides", "min": 1, "max": 6, "step": 1, "default": 3},
+    {"type": "range", "id": "slides_per_view_tablet", "label": "Tablet slides", "min": 1, "max": 6, "step": 1, "default": 2},
+    {"type": "range", "id": "slides_per_view_mobile", "label": "Mobile slides", "min": 1, "max": 3, "step": 1, "default": 1},
+
+    {"type": "header", "content": "Space between (px)"},
+    {"type": "range", "id": "space_between_desktop", "label": "Desktop space", "min": 0, "max": 64, "step": 2, "default": 16},
+    {"type": "range", "id": "space_between_tablet", "label": "Tablet space", "min": 0, "max": 64, "step": 2, "default": 12},
+    {"type": "range", "id": "space_between_mobile", "label": "Mobile space", "min": 0, "max": 64, "step": 2, "default": 8},
+
+    {"type": "header", "content": "Controls"},
+    {"type": "checkbox", "id": "enable_pagination", "label": "Enable pagination", "default": true},
+    {"type": "checkbox", "id": "enable_navigation", "label": "Enable navigation arrows", "default": true}
+  ],
+  "templates": ["product"],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %} 

@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-gallery-swiper",
+      "settings": {}
+    },
+    "accordion": {
+      "type": "product-accordion",
+      "settings": {}
+    }
+  },
+  "order": ["main", "accordion"]
+}

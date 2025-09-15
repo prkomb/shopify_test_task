@@ -1,0 +1,49 @@
+{% if product %}
+{% assign titles = product.metafields.custom.accordion_titles %}
+{% assign contents = product.metafields.custom.accordion_contents %}
+{% assign allow_multiple_meta = product.metafields.custom.accordion_allow_multiple %}
+
+{% assign allow_multiple = section.settings.allow_multiple %}
+{% if allow_multiple_meta != blank %}
+  {% assign allow_multiple = allow_multiple_meta.value %}
+{% endif %}
+
+{% if titles != blank and contents != blank %}
+<div class="product-accordion" id="ProductAccordion-{{ section.id }}" data-allow-multiple="{{ allow_multiple }}">
+  {% assign title_list = titles.value %}
+  {% assign content_list = contents.value %}
+
+  {% for t in title_list %}
+    {% assign idx = forloop.index0 %}
+    {% assign c = content_list[idx] %}
+    {% assign t_clean = t | strip %}
+    {% assign c_clean = c | strip %}
+    {% if t_clean != '' and c_clean != '' %}
+      <div class="accordion-item">
+        <button class="accordion-trigger" aria-expanded="false">
+          <span class="accordion-title">{{ t }}</span>
+          <span class="accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="accordion-panel" hidden>
+          <div class="accordion-content">{{ c }}</div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+{% endif %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Product Accordion (Metafields)",
+  "settings": [
+    {"type": "checkbox", "id": "allow_multiple", "label": "Allow multiple open", "default": false},
+    {"type": "paragraph", "content": "Uses product metafields: custom.accordion_titles (List of text) and custom.accordion_contents (List of rich text or text). Optional boolean custom.accordion_allow_multiple overrides setting."}
+  ],
+  "templates": ["product"],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %} 

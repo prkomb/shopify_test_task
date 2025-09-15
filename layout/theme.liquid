@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ page_title }}{% if current_tags %} – tagged \"{{ current_tags | join: ', ' }}\"{% endif %}{% if current_page != 1 %} – Page {{ current_page }}{% endif %}{% if shop.name %} – {{ shop.name }}{% endif %}</title>
+  {{ content_for_header }}
+  
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+  
+  <!-- Theme CSS placeholder -->
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+  {{ 'product-gallery-swiper.css' | asset_url | stylesheet_tag }}
+</head>
+<body>
+  {{ content_for_layout }}
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js" defer></script>
+
+  <!-- Theme JS -->
+  <script src="{{ 'product-gallery-swiper.js' | asset_url }}" defer></script>
+  <script src="{{ 'product-accordion.js' | asset_url }}" defer></script>
+</body>
+</html> 

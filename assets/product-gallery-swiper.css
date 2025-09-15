@@ -1,0 +1,15 @@
+.product-gallery-swiper .swiper {
+  width: 100%;
+}
+.product-gallery-swiper .swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+.product-gallery-swiper .swiper-slide img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
